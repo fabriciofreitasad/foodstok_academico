@@ -1,10 +1,15 @@
 package com.unigoias.foodstock_v3.entidade;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -15,64 +20,87 @@ public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     private String nome;
     private String marca;
     private String imgUrl;
     
+    @ManyToMany
+    @JoinTable(name = "tb_produto_categoria",
+            joinColumns = @JoinColumn(name = "produto_id"),
+            inverseJoinColumns = @JoinColumn(name = "categoria_id"))
+    private Set<Categoria> categorias = new HashSet<>();
+    
     @ManyToOne
-    @JoinColumn(name = "categoria_id")
-    private Categoria categoria;
+    @JoinColumn(name = "estoque_id")
+    private Estoque estoque;
     
     public Produto() {    
     }
 
-    public Produto(Long id, String nome, String marca, String imgUrl, Categoria categoria) {
-        this.id = id;
+    public Produto(String nome, String marca, String imgUrl) {
         this.nome = nome;
         this.marca = marca;
         this.imgUrl = imgUrl;
-        this.categoria = categoria;
     }
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public String getMarca() {
-		return marca;
-	}
+    public String getMarca() {
+        return marca;
+    }
 
-	public void setMarca(String marca) {
-		this.marca = marca;
-	}
-	
-	public String getImgUrl() {
-		return imgUrl;
-	}
-	public void setImgUrl(String imgUrl) {
-		this.imgUrl = imgUrl;
-	}
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+    
+    public String getImgUrl() {
+        return imgUrl;
+    }
+    
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 
-	public Categoria getCategoria() {
-		return categoria;
-	}
+    public Set<Categoria> getCategorias() {
+        return categorias;
+    }
 
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
-	}
-	
-	
+    public void setCategorias(Set<Categoria> categorias) {
+        this.categorias = categorias;
+    }
 
+    public Estoque getEstoque() {
+        return estoque;
+    }
+
+    public void setEstoque(Estoque estoque) {
+        this.estoque = estoque;
+    }
+
+    // Método para adicionar uma categoria ao produto
+    public void adicionarCategoria(Categoria categoria) {
+        this.categorias.add(categoria);
+        categoria.getProdutos().add(this);
+    }
+
+    // Método para remover uma categoria do produto
+    public void removerCategoria(Categoria categoria) {
+        this.categorias.remove(categoria);
+        categoria.getProdutos().remove(this);
+    }
 }
