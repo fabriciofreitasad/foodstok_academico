@@ -40,6 +40,4 @@ public class Estoque {
 	public List<Produto> getProdutos() {
 		return produtos;
 	}
-	
-
 }
