@@ -12,5 +12,12 @@ INSERT INTO tb_produto_categoria(produto_id, categoria_id) VALUES (1, 1);
 INSERT INTO tb_produto_categoria(produto_id, categoria_id) VALUES (2, 2);
 INSERT INTO tb_produto_categoria(produto_id, categoria_id) VALUES (3, 3);
 
+-- Inserindo usuarios
+INSERT INTO tb_usuario (nome, email, senha) VALUES ('João', 'joao@example.com', 'senha123');
+INSERT INTO tb_usuario (nome, email, senha) VALUES ('Maria', 'maria@example.com', 'senha456');
+INSERT INTO tb_usuario (nome, email, senha) VALUES ('Pedro', 'pedro@example.com', 'senha789');
+
+
+
 
 

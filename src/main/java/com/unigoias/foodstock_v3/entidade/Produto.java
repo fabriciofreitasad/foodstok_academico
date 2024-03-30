@@ -1,6 +1,7 @@
 package com.unigoias.foodstock_v3.entidade;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
@@ -11,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -30,6 +32,9 @@ public class Produto {
             joinColumns = @JoinColumn(name = "produto_id"),
             inverseJoinColumns = @JoinColumn(name = "categoria_id"))
     private Set<Categoria> categorias = new HashSet<>();
+    
+    @OneToMany(mappedBy = "id.produto")
+    private Set<ItemCompra> items = new HashSet<>();
     
     @ManyToOne
     @JoinColumn(name = "estoque_id")
@@ -80,16 +85,20 @@ public class Produto {
         return categorias;
     }
 
-    public void setCategorias(Set<Categoria> categorias) {
-        this.categorias = categorias;
-    }
+    public Set<ItemCompra> getItems() {
+		return items;
+	}
 
-    public Estoque getEstoque() {
+	public Estoque getEstoque() {
         return estoque;
     }
 
     public void setEstoque(Estoque estoque) {
         this.estoque = estoque;
+    }
+    
+    public List<ListaCompra> getListaCompras(){
+    	return items.stream().map(x -> x.getListaCompra()).toList();
     }
 
     // Método para adicionar uma categoria ao produto
