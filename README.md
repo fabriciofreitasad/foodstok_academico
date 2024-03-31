@@ -28,7 +28,19 @@ JPA e Hibernate: Utilizamos o JPA (Java Persistence API) em conjunto com o Hiber
 Maven: Utilizamos o Maven como ferramenta de gerenciamento de dependências e de construção do projeto. Com o Maven, podemos definir todas as dependências do projeto em um arquivo de configuração (pom.xml) e facilmente construir, testar e empacotar o aplicativo para implantação.
 
 ## Como Contribuir:
-O dscommecer é um projeto desenvolvido durante o curso no DevSuperior e pode ter algumas restrições quanto a contribuições externas. É importante verificar com o professor Nélio Alves ou a equipe do curso sobre a possibilidade de colaborar com o projeto.
+Agradecemos pelo seu interesse em contribuir para o nosso projeto! Aqui estão algumas maneiras pelas quais você pode ajudar:
+
+Relatando Problemas: Se você encontrar algum problema ou bug, por favor, abra uma issue descrevendo-o detalhadamente. Certifique-se de incluir informações como passos para reproduzir o problema e o comportamento esperado.
+
+Sugerindo Melhorias: Tem alguma ideia para melhorar o projeto? Gostaria de ver algum recurso específico adicionado? Por favor, compartilhe suas sugestões abrindo uma issue para discussão.
+
+Envio de Pull Requests: Se você tem habilidades de desenvolvimento e gostaria de contribuir com código, fique à vontade para enviar um pull request com suas alterações. Certifique-se de seguir as diretrizes de contribuição (se houver) e descreva claramente as alterações que você fez.
+
+Testando: Se você não é um desenvolvedor, mas está interessado em ajudar, pode nos ajudar testando o aplicativo e relatando qualquer problema ou bug que encontrar.
+
+Compartilhando o Projeto: Ajude a aumentar a visibilidade do projeto compartilhando-o com outras pessoas interessadas. Você pode compartilhar o link do repositório no GitHub ou falar sobre o projeto em suas redes sociais.
+
+Agradecemos antecipadamente por sua contribuição e apoio ao nosso projeto!
 
 ## Aviso:
 Este projeto é de cunho acadêmico e está sendo desenvolvido por alunos da Universidade de Goiás (Unigoiás) como parte de um trabalho educacional.
@@ -40,9 +52,18 @@ Encorajamos a comunidade a fornecer feedback construtivo e sugestões para melho
 Obrigado pela compreensão e pelo apoio ao desenvolvimento educacional dos nossos alunos da Unigoiás!
 
 ## Nota de Agradecimento:
-Agradecemos ao professor Nélio Alves e ao DevSuperior por fornecerem um curso abrangente e prático que possibilitou o desenvolvimento do dscommecer. O conhecimento adquirido é valioso para nossa carreira e aprimoramento profissional.
+Gostaríamos de expressar nossa mais profunda gratidão a todos aqueles que contribuíram para o desenvolvimento deste projeto. Seja através de feedbacks, sugestões, correções de bugs ou envolvimento ativo no processo de desenvolvimento, cada contribuição foi inestimável e fundamental para o progresso do projeto.
 
-Vamos juntos transformar o dscommecer em uma plataforma de e-commerce verdadeiramente revolucionária em Java 17 com Spring Boot! Sejam todos bem-vindos! 🚀
+Agradecemos especialmente aos alunos da Universidade de Goiás (Unigoiás) que dedicaram seu tempo e esforço para tornar este projeto uma realidade acadêmica. Suas habilidades, dedicação e entusiasmo foram essenciais para o sucesso deste empreendimento educacional.
+
+Também gostaríamos de estender nossos agradecimentos aos professores e mentores que apoiaram e orientaram os alunos ao longo do caminho, proporcionando-lhes as ferramentas e conhecimentos necessários para alcançar seus objetivos.
+
+Por último, mas não menos importante, agradecemos a todos os usuários e colaboradores externos que acompanharam e apoiaram o projeto. Sua participação é fundamental para o crescimento e aprimoramento contínuo deste trabalho.
+
+Obrigado a todos pelo seu comprometimento, dedicação e contribuições. Juntos, construímos algo de valor e deixamos uma marca positiva em nossa comunidade acadêmica.
+
+Atenciosamente,
+Fabricio Freitas 🚀
 
 ## Layout mobile 
 
