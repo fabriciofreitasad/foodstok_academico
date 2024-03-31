@@ -1,4 +1,4 @@
-package com.unigoias.foodstock_v3.entidade;
+package com.uni.foodstock.entidade;
 
 import java.util.HashSet;
 import java.util.List;
@@ -17,16 +17,16 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "tb_compra")
 public class ListaCompra {
-	
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	private Integer quantidade;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Usuario cliente;
-	
+
 	@OneToMany(mappedBy = "id.compra")
 	private Set<ItemCompra> itens = new HashSet<>();
 
@@ -66,8 +66,8 @@ public class ListaCompra {
 	public Set<ItemCompra> getItens() {
 		return itens;
 	}
-	
-	public List<Produto> getProduto(){
+
+	public List<Produto> getProduto() {
 		return itens.stream().map(x -> x.getProduto()).toList();
 	}
 
@@ -87,5 +87,5 @@ public class ListaCompra {
 		ListaCompra other = (ListaCompra) obj;
 		return Objects.equals(id, other.id);
 	}
-	
+
 }

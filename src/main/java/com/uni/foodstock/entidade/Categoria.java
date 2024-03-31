@@ -1,4 +1,4 @@
-package com.unigoias.foodstock_v3.entidade;
+package com.uni.foodstock.entidade;
 
 import java.util.HashSet;
 import java.util.Objects;

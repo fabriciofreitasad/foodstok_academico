@@ -1,4 +1,4 @@
-package com.unigoias.foodstock_v3.entidade;
+package com.uni.foodstock.entidade;
 
 import java.util.Objects;
 
@@ -8,16 +8,15 @@ import jakarta.persistence.ManyToOne;
 
 @Embeddable
 public class ItemCompraPK {
-	
-	
+
 	@ManyToOne
 	@JoinColumn(name = "compra_id")
 	private ListaCompra compra;
-	 
+
 	@ManyToOne
 	@JoinColumn(name = "produto_id")
 	private Produto produto;
-	 
+
 	public ItemCompraPK() {
 	}
 
@@ -53,5 +52,5 @@ public class ItemCompraPK {
 		ItemCompraPK other = (ItemCompraPK) obj;
 		return Objects.equals(compra, other.compra) && Objects.equals(produto, other.produto);
 	}
-	
+
 }

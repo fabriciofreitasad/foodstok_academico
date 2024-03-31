@@ -1,4 +1,4 @@
-package com.unigoias.foodstock_v3.entidade;
+package com.uni.foodstock.entidade;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,22 +15,22 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "tb_usuario")
 public class Usuario {
-	
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	private String nome;
-	
+
 	@Column(unique = true)
 	private String email;
 	private String senha;
-	
+
 	@OneToMany(mappedBy = "cliente")
 	private List<ListaCompra> lista = new ArrayList<>();
-	
+
 	public Usuario() {
 	}
-	
+
 	public Usuario(Long id, String nome, String email, String senha) {
 		this.id = id;
 		this.nome = nome;
@@ -90,5 +90,5 @@ public class Usuario {
 		Usuario other = (Usuario) obj;
 		return Objects.equals(id, other.id);
 	}
-	
+
 }

@@ -1,4 +1,4 @@
-package com.unigoias.foodstock_v3.entidade;
+package com.uni.foodstock.entidade;
 
 import java.util.HashSet;
 import java.util.List;
@@ -19,90 +19,88 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "tb_produto")
 public class Produto {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    private String nome;
-    private String marca;
-    private String imgUrl;
-    
-    @ManyToMany
-    @JoinTable(name = "tb_produto_categoria",
-            joinColumns = @JoinColumn(name = "produto_id"),
-            inverseJoinColumns = @JoinColumn(name = "categoria_id"))
-    private Set<Categoria> categorias = new HashSet<>();
-    
-    @OneToMany(mappedBy = "id.produto")
-    private Set<ItemCompra> items = new HashSet<>();
-    
-    @ManyToOne
-    @JoinColumn(name = "estoque_id")
-    private Estoque estoque;
-    
-    public Produto() {    
-    }
 
-    public Produto(String nome, String marca, String imgUrl) {
-        this.nome = nome;
-        this.marca = marca;
-        this.imgUrl = imgUrl;
-    }
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String nome;
+	private String marca;
+	private String imgUrl;
 
-    public Long getId() {
-        return id;
-    }
+	@ManyToMany
+	@JoinTable(name = "tb_produto_categoria", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
+	private Set<Categoria> categorias = new HashSet<>();
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	@OneToMany(mappedBy = "id.produto")
+	private Set<ItemCompra> items = new HashSet<>();
 
-    public String getNome() {
-        return nome;
-    }
+	@ManyToOne
+	@JoinColumn(name = "estoque_id")
+	private Estoque estoque;
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	public Produto() {
+	}
 
-    public String getMarca() {
-        return marca;
-    }
+	public Produto(Long id, String nome, String marca, String imgUrl) {
+		this.id = id;
+		this.nome = nome;
+		this.marca = marca;
+		this.imgUrl = imgUrl;
+	}
 
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-    
-    public String getImgUrl() {
-        return imgUrl;
-    }
-    
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public Set<Categoria> getCategorias() {
-        return categorias;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Set<ItemCompra> getItems() {
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getMarca() {
+		return marca;
+	}
+
+	public void setMarca(String marca) {
+		this.marca = marca;
+	}
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+
+	public Set<Categoria> getCategorias() {
+		return categorias;
+	}
+
+	public Set<ItemCompra> getItems() {
 		return items;
 	}
 
 	public Estoque getEstoque() {
-        return estoque;
-    }
+		return estoque;
+	}
 
-    public void setEstoque(Estoque estoque) {
-        this.estoque = estoque;
-    }
-    
-    public List<ListaCompra> getListaCompras(){
-    	return items.stream().map(x -> x.getListaCompra()).toList();
-    }
+	public void setEstoque(Estoque estoque) {
+		this.estoque = estoque;
+	}
 
-    @Override
+	public List<ListaCompra> getListaCompras() {
+		return items.stream().map(x -> x.getListaCompra()).toList();
+	}
+
+	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
@@ -120,14 +118,14 @@ public class Produto {
 	}
 
 	// Método para adicionar uma categoria ao produto
-    public void adicionarCategoria(Categoria categoria) {
-        this.categorias.add(categoria);
-        categoria.getProdutos().add(this);
-    }
+	public void adicionarCategoria(Categoria categoria) {
+		this.categorias.add(categoria);
+		categoria.getProdutos().add(this);
+	}
 
-    // Método para remover uma categoria do produto
-    public void removerCategoria(Categoria categoria) {
-        this.categorias.remove(categoria);
-        categoria.getProdutos().remove(this);
-    }
+	// Método para remover uma categoria do produto
+	public void removerCategoria(Categoria categoria) {
+		this.categorias.remove(categoria);
+		categoria.getProdutos().remove(this);
+	}
 }

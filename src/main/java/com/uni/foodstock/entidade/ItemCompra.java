@@ -1,4 +1,4 @@
-package com.unigoias.foodstock_v3.entidade;
+package com.uni.foodstock.entidade;
 
 import java.util.Objects;
 
@@ -9,10 +9,10 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "tb_compra_item")
 public class ItemCompra {
-	
+
 	@EmbeddedId
 	private ItemCompraPK id = new ItemCompraPK();
-	
+
 	private Integer quantidade;
 
 	public ItemCompra() {
@@ -23,19 +23,19 @@ public class ItemCompra {
 		id.setCompra(listaCompras);
 		this.quantidade = quantidade;
 	}
-	
+
 	public Produto getProduto() {
 		return id.getProduto();
 	}
-	
+
 	public void setProduto(Produto produto) {
 		id.setProduto(produto);
 	}
-	
+
 	public void setListaCompra(ListaCompra listaCompra) {
 		id.setCompra(listaCompra);
 	}
-	
+
 	public ListaCompra getListaCompra() {
 		return id.getCompra();
 	}
@@ -64,5 +64,5 @@ public class ItemCompra {
 		ItemCompra other = (ItemCompra) obj;
 		return Objects.equals(id, other.id);
 	}
-	
+
 }

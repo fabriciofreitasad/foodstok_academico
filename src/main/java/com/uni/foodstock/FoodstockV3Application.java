@@ -1,4 +1,4 @@
-package com.unigoias.foodstock_v3;
+package com.uni.foodstock;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
