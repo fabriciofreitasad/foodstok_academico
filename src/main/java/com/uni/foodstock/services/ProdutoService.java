@@ -16,21 +16,21 @@ public class ProdutoService {
 	@Autowired
 	private ProdutoRepositori repositori;
 
-	@Transactional(readOnly = true) /* Buscar por ID */
+	@Transactional(readOnly = true) 						/* Buscar por ID */
 	public ProdutoDTO findById(Long id) {
 		Produto produto = repositori.findById(id).get();
 		return new ProdutoDTO(produto);
 
 	}
 
-	@Transactional(readOnly = true) /* Buscar todos */
+	@Transactional(readOnly = true) 						/* Buscar todos */
 	public Page<ProdutoDTO> findAll(Pageable pageable) {
 		Page<Produto> result = repositori.findAll(pageable);
 		return result.map(x -> new ProdutoDTO(x));
 
 	}
 
-	@Transactional /* Inserir novo produto */
+	@Transactional 											/* Inserir novo produto */
 	public ProdutoDTO insert(ProdutoDTO dto) {
 
 		Produto entidade = new Produto();
@@ -40,7 +40,7 @@ public class ProdutoService {
 
 	}
 
-	@Transactional /* Inserir novo produto */
+	@Transactional 											/* Inserir novo produto */
 	public ProdutoDTO update(Long id, ProdutoDTO dto) {
 
 		Produto entidade = repositori.getReferenceById(id);
@@ -50,7 +50,7 @@ public class ProdutoService {
 
 	}
 	
-	@Transactional /* Deletor por ID */
+	@Transactional 											/* Deletor por ID */
 	public void delete(Long id) {
 		repositori.deleteById(id);
 	}
