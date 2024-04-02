@@ -8,9 +8,6 @@ public class ProdutoDTO {
     private String nome;
     private String marca;
     private String imgUrl;
-    
-	public ProdutoDTO() {
-	}
 
 	public ProdutoDTO(Long id, String nome, String marca, String imgUrl) {
 		this.id = id;

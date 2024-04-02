@@ -9,9 +9,6 @@ public class UsuarioDTO {
 	private String email;
 	private String senha;
 
-	public UsuarioDTO() {
-	}
-
 	public UsuarioDTO(Long id, String nome, String email, String senha) {
 		this.id = id;
 		this.nome = nome;

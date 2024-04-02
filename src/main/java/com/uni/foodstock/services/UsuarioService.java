@@ -1,14 +1,20 @@
 package com.uni.foodstock.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.uni.foodstock.dto.UsuarioDTO;
 import com.uni.foodstock.entidade.Usuario;
 import com.uni.foodstock.repositories.UsuarioRepositori;
+import com.uni.foodstock.services.exceptions.DatabaseException;
+import com.uni.foodstock.services.exceptions.ResourceNotFoundException;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UsuarioService {
@@ -17,7 +23,8 @@ public class UsuarioService {
 
 	@Transactional(readOnly = true) 						/* Buscar por ID */
 	public UsuarioDTO findById(Long id) {
-		Usuario produto = repositori.findById(id).get();
+		Usuario produto = repositori.findById(id).orElseThrow(
+				() -> new ResourceNotFoundException("Recurso não encontrado"));
 		return new UsuarioDTO(produto);
 
 	}
@@ -41,17 +48,29 @@ public class UsuarioService {
 
 	@Transactional 											/* Inserir novo usuario */
 	public UsuarioDTO update(Long id, UsuarioDTO dto) {
-
-		Usuario entidade = repositori.getReferenceById(id);
-		copyDtoToEntity(dto, entidade);
-		entidade = repositori.save(entidade);
-		return new UsuarioDTO(entidade);
+		try {
+			Usuario entidade = repositori.getReferenceById(id);
+			copyDtoToEntity(dto, entidade);
+			entidade = repositori.save(entidade);
+			return new UsuarioDTO(entidade);
+		}
+		catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Recurso não encontrado");
+		}
 
 	}
 	
-	@Transactional 											/* Deletor por ID */
+	@Transactional(propagation = Propagation.SUPPORTS) 		/* Deletor por ID */
 	public void delete(Long id) {
-		repositori.deleteById(id);
+		if (!repositori.existsById(id)) {
+			throw new ResourceNotFoundException("Recurso não encontrado");
+		}
+		try {
+	        	repositori.deleteById(id);    		
+		}
+	    	catch (DataIntegrityViolationException e) {
+	        	throw new DatabaseException("Falha de integridade referencial");
+	   	}
 	}
 
 	private void copyDtoToEntity(UsuarioDTO dto, Usuario entidade) {
