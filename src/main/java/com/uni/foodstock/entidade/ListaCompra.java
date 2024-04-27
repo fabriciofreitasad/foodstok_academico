@@ -1,9 +1,9 @@
 package com.uni.foodstock.entidade;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,22 +21,23 @@ public class ListaCompra {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Integer quantidade;
+	private Date data;
 
 	@ManyToOne
-	@JoinColumn(name = "cliente_id")
-	private Usuario cliente;
+	@JoinColumn(name = "usuario_id")
+	private Usuario usuario;
 
-	@OneToMany(mappedBy = "id.compra")
-	private Set<ItemCompra> itens = new HashSet<>();
+	@OneToMany(mappedBy = "listaCompra")
+	private List<ItemCompra> itens = new ArrayList<>();
 
 	public ListaCompra() {
 	}
 
-	public ListaCompra(Long id, Integer quantidade, Usuario cliente) {
+	public ListaCompra(Long id, Date data, Usuario usuario, List<ItemCompra> itens) {
 		this.id = id;
-		this.quantidade = quantidade;
-		this.cliente = cliente;
+		this.data = data;
+		this.usuario = usuario;
+		this.itens = itens;
 	}
 
 	public Long getId() {
@@ -47,28 +48,28 @@ public class ListaCompra {
 		this.id = id;
 	}
 
-	public Integer getQuantidade() {
-		return quantidade;
+	public Date getData() {
+		return data;
 	}
 
-	public void setQuantidade(Integer quantidade) {
-		this.quantidade = quantidade;
+	public void setData(Date data) {
+		this.data = data;
 	}
 
-	public Usuario getCliente() {
-		return cliente;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setCliente(Usuario cliente) {
-		this.cliente = cliente;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
-	public Set<ItemCompra> getItens() {
+	public List<ItemCompra> getItens() {
 		return itens;
 	}
 
-	public List<Produto> getProduto() {
-		return itens.stream().map(x -> x.getProduto()).toList();
+	public void setItens(List<ItemCompra> itens) {
+		this.itens = itens;
 	}
 
 	@Override

@@ -20,6 +20,11 @@ public class ItemCompraPK {
 	public ItemCompraPK() {
 	}
 
+	public ItemCompraPK(ListaCompra compra, Produto produto) {
+		this.compra = compra;
+		this.produto = produto;
+	}
+
 	public ListaCompra getCompra() {
 		return compra;
 	}

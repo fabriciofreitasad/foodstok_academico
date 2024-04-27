@@ -1,19 +1,14 @@
 package com.uni.foodstock.entidade;
 
-import java.util.HashSet;
-import java.util.List;
+import java.math.BigDecimal;
 import java.util.Objects;
-import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,27 +20,28 @@ public class Produto {
 	private Long id;
 	private String nome;
 	private String marca;
+	private BigDecimal preco;
+	private String descricao;
 	private String imgUrl;
 
-	@ManyToMany
-	@JoinTable(name = "tb_produto_categoria", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
-	private Set<Categoria> categorias = new HashSet<>();
-
-	@OneToMany(mappedBy = "id.produto")
-	private Set<ItemCompra> items = new HashSet<>();
-
 	@ManyToOne
-	@JoinColumn(name = "estoque_id")
-	private Estoque estoque;
+	@JoinColumn(name = "categoria_id")
+	private Categoria categoria;
+	private Integer estoque;
 
 	public Produto() {
 	}
 
-	public Produto(Long id, String nome, String marca, String imgUrl) {
+	public Produto(Long id, String nome, String marca, BigDecimal preco, String descricao, String imgUrl,
+			Categoria categoria, Integer estoque) {
 		this.id = id;
 		this.nome = nome;
 		this.marca = marca;
+		this.preco = preco;
+		this.descricao = descricao;
 		this.imgUrl = imgUrl;
+		this.categoria = categoria;
+		this.estoque = estoque;
 	}
 
 	public Long getId() {
@@ -72,6 +68,22 @@ public class Produto {
 		this.marca = marca;
 	}
 
+	public BigDecimal getPreco() {
+		return preco;
+	}
+
+	public void setPreco(BigDecimal preco) {
+		this.preco = preco;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
 	public String getImgUrl() {
 		return imgUrl;
 	}
@@ -80,24 +92,20 @@ public class Produto {
 		this.imgUrl = imgUrl;
 	}
 
-	public Set<Categoria> getCategorias() {
-		return categorias;
+	public Categoria getCategoria() {
+		return categoria;
 	}
 
-	public Set<ItemCompra> getItems() {
-		return items;
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 
-	public Estoque getEstoque() {
+	public Integer getEstoque() {
 		return estoque;
 	}
 
-	public void setEstoque(Estoque estoque) {
+	public void setEstoque(Integer estoque) {
 		this.estoque = estoque;
-	}
-
-	public List<ListaCompra> getListaCompras() {
-		return items.stream().map(x -> x.getListaCompra()).toList();
 	}
 
 	@Override
@@ -117,15 +125,4 @@ public class Produto {
 		return Objects.equals(id, other.id);
 	}
 
-	// Método para adicionar uma categoria ao produto
-	public void adicionarCategoria(Categoria categoria) {
-		this.categorias.add(categoria);
-		categoria.getProdutos().add(this);
-	}
-
-	// Método para remover uma categoria do produto
-	public void removerCategoria(Categoria categoria) {
-		this.categorias.remove(categoria);
-		categoria.getProdutos().remove(this);
-	}
 }

@@ -2,49 +2,72 @@ package com.uni.foodstock.entidade;
 
 import java.util.Objects;
 
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_compra_item")
 public class ItemCompra {
 
-	@EmbeddedId
-	private ItemCompraPK id = new ItemCompraPK();
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-	private Integer quantidade;
+	@ManyToOne
+	@JoinColumn(name = "lista_compra_id")
+	private ListaCompra listaCompra;
+
+	@ManyToOne
+	@JoinColumn(name = "produto_id")
+	private Produto produto;
+
+
+	private int quantidade;
 
 	public ItemCompra() {
 	}
 
-	public ItemCompra(ListaCompra listaCompras, Produto produto, Integer quantidade) {
-		id.setProduto(produto);
-		id.setCompra(listaCompras);
+	public ItemCompra(Long id, ListaCompra listaCompra, Produto produto, int quantidade) {
+		this.id = id;
+		this.listaCompra = listaCompra;
+		this.produto = produto;
 		this.quantidade = quantidade;
 	}
 
-	public Produto getProduto() {
-		return id.getProduto();
+	public Long getId() {
+		return id;
 	}
 
-	public void setProduto(Produto produto) {
-		id.setProduto(produto);
-	}
-
-	public void setListaCompra(ListaCompra listaCompra) {
-		id.setCompra(listaCompra);
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public ListaCompra getListaCompra() {
-		return id.getCompra();
+		return listaCompra;
 	}
 
-	public Integer getQuantidade() {
+	public void setListaCompra(ListaCompra listaCompra) {
+		this.listaCompra = listaCompra;
+	}
+
+	public Produto getProduto() {
+		return produto;
+	}
+
+	public void setProduto(Produto produto) {
+		this.produto = produto;
+	}
+
+	public int getQuantidade() {
 		return quantidade;
 	}
 
-	public void setQuantidade(Integer quantidade) {
+	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
 	}
 

@@ -1,14 +1,14 @@
 package com.uni.foodstock.entidade;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,17 +18,22 @@ public class Estoque {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@ManyToOne
+    @JoinColumn(name = "produto_id")
+	private Produto produto;
+	
+	@Column(nullable = false)
+    private int quantidade;
 
 	public Estoque() {
 	}
 
-	public Estoque(Long id, List<Produto> produtos) {
+	public Estoque(Long id, Produto produto, int quantidade) {
 		this.id = id;
-		this.produtos = produtos;
+		this.produto = produto;
+		this.quantidade = quantidade;
 	}
-
-	@OneToMany(mappedBy = "estoque")
-	private List<Produto> produtos = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -38,8 +43,20 @@ public class Estoque {
 		this.id = id;
 	}
 
-	public List<Produto> getProdutos() {
-		return produtos;
+	public Produto getProduto() {
+		return produto;
+	}
+
+	public void setProduto(Produto produto) {
+		this.produto = produto;
+	}
+
+	public int getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(int quantidade) {
+		this.quantidade = quantidade;
 	}
 
 	@Override
@@ -58,5 +75,7 @@ public class Estoque {
 		Estoque other = (Estoque) obj;
 		return Objects.equals(id, other.id);
 	}
+
+	
 
 }

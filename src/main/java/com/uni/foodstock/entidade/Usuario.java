@@ -1,6 +1,5 @@
 package com.uni.foodstock.entidade;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,8 +24,8 @@ public class Usuario {
 	private String email;
 	private String senha;
 
-	@OneToMany(mappedBy = "cliente")
-	private List<ListaCompra> lista = new ArrayList<>();
+	@OneToMany(mappedBy = "usuario") // Corrigido para "usuario"
+    private List<ListaCompra> lista;
 
 	public Usuario() {
 	}

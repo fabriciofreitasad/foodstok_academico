@@ -1,0 +1,14 @@
+2024-04-18 20:06:49,037 [Worker-6: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2024-04-18 20:09:03,526 [Worker-9: Importing Maven projects] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.unigoias:foodstock_v3:0.0.1-SNAPSHOT @ C:\Users\garra\OneDrive\Documents\Fabricio - UniGoias\2024\N1\foodstock_v4\pom.xml.
+2024-04-18 20:09:04,974 [Worker-9: Importing Maven projects] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /foodstock_v3/src/main/java
+2024-04-18 20:09:04,975 [Worker-9: Importing Maven projects] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /foodstock_v3/src/main/resources
+2024-04-18 20:09:04,975 [Worker-9: Importing Maven projects] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /foodstock_v3/src/main/resources
+2024-04-18 20:09:04,977 [Worker-9: Importing Maven projects] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /foodstock_v3/src/test/java
+2024-04-18 20:09:04,977 [Worker-9: Importing Maven projects] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /foodstock_v3/src/test/resources
+2024-04-18 20:09:05,405 [Worker-9: Importing Maven projects] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Imported and configured 1 project(s) in 3 sec
+2024-04-18 20:09:06,618 [Worker-0: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 2 resources from src\main\resources to target\classes
+2024-04-18 20:09:06,645 [Worker-0: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-04-18 20:09:06,653 [Worker-0: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\garra\OneDrive\Documents\Fabricio - UniGoias\2024\N1\foodstock_v4\src\test\resources
+2024-04-18 20:25:37,523 [Worker-7: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 2 resources from src\main\resources to target\classes
+2024-04-18 20:25:37,533 [Worker-7: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-04-18 20:25:37,536 [Worker-7: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\garra\OneDrive\Documents\Fabricio - UniGoias\2024\N1\foodstock_v4\src\test\resources
