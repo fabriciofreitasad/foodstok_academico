@@ -1,23 +1,30 @@
 package com.uni.foodstock.entidade;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_categoria")
 public class Categoria {
-    
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String nome;
-    private String descricao;
-    
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	private String nome;
+	private String descricao;
+
+	@ManyToMany(mappedBy = "categories")
+	private Set<Produto> produtos = new HashSet<>();
+
 	public Categoria() {
 	}
 
@@ -51,6 +58,14 @@ public class Categoria {
 		this.descricao = descricao;
 	}
 
+	public Set<Produto> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(Set<Produto> produtos) {
+		this.produtos = produtos;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -67,7 +82,5 @@ public class Categoria {
 		Categoria other = (Categoria) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
 
 }

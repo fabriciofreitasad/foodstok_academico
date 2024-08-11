@@ -5,7 +5,11 @@ import com.uni.foodstock.entidade.Categoria;
 public class CategoriaDTO {
 
 	private Long id;
+	
+	
 	private String nome;
+	
+	
 	private String descricao;
 
 	public CategoriaDTO() {

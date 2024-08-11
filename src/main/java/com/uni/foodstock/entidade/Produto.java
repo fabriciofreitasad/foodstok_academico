@@ -1,14 +1,17 @@
 package com.uni.foodstock.entidade;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,24 +27,22 @@ public class Produto {
 	private String descricao;
 	private String imgUrl;
 
-	@ManyToOne
-	@JoinColumn(name = "categoria_id")
-	private Categoria categoria;
+	@ManyToMany
+	@JoinTable(name = "tb_produto_categoria", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
+	private Set<Categoria> categories = new HashSet<>();
+
 	private Integer estoque;
 
 	public Produto() {
 	}
 
-	public Produto(Long id, String nome, String marca, BigDecimal preco, String descricao, String imgUrl,
-			Categoria categoria, Integer estoque) {
+	public Produto(Long id, String nome, String marca, BigDecimal preco, String descricao, String imgUrl) {
 		this.id = id;
 		this.nome = nome;
 		this.marca = marca;
 		this.preco = preco;
 		this.descricao = descricao;
 		this.imgUrl = imgUrl;
-		this.categoria = categoria;
-		this.estoque = estoque;
 	}
 
 	public Long getId() {
@@ -92,12 +93,12 @@ public class Produto {
 		this.imgUrl = imgUrl;
 	}
 
-	public Categoria getCategoria() {
-		return categoria;
+	public Set<Categoria> getCategories() {
+		return categories;
 	}
 
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
+	public void setCategories(Set<Categoria> categories) {
+		this.categories = categories;
 	}
 
 	public Integer getEstoque() {
