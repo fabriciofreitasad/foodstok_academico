@@ -1,5 +1,6 @@
 package com.uni.foodstock.entidade;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,19 +19,20 @@ public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	private String nome;
 
 	@Column(unique = true)
 	private String email;
+
 	private String senha;
 
-	@OneToMany(mappedBy = "usuario") // Corrigido para "usuario"
-    private List<ListaCompra> lista;
+
 
 	public Usuario() {
 	}
 
-	public Usuario(Long id, String nome, String email, String senha) {
+	public Usuario(Long id, String nome, String email, String senha, List<ListaCompra> lista) {
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
@@ -69,9 +71,6 @@ public class Usuario {
 		this.senha = senha;
 	}
 
-	public List<ListaCompra> getLista() {
-		return lista;
-	}
 
 	@Override
 	public int hashCode() {

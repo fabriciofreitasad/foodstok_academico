@@ -22,7 +22,7 @@ import com.uni.foodstock.services.CategoryService;
 @RestController
 @RequestMapping(value = "/categoria")
 public class CategoriaController {
-	
+
 	@Autowired
 	private CategoryService service;
 
@@ -50,7 +50,7 @@ public class CategoriaController {
 		dto = service.update(id, dto);
 		return ResponseEntity.ok(dto);
 	}
-	
+
 	@DeleteMapping(value = "/{id}") 									/* Deletar um categoria ID */
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		service.delete(id);

@@ -2,10 +2,11 @@ package com.uni.foodstock.dto;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.uni.foodstock.entidade.Categoria;
-import com.uni.foodstock.entidade.Estoque;
 import com.uni.foodstock.entidade.Produto;
 
 import jakarta.validation.constraints.NotBlank;
@@ -35,11 +36,9 @@ public class ProdutoDTO {
 	private String descricao;
 	private String imgUrl;
 
-	@NotEmpty(message = "Deve ter pelo menos uma categoria")
-	private List<EstoqueDTO> estoques = new ArrayList<>();
 
 	@NotEmpty(message = "Deve ter pelo menos uma categoria")
-	private List<CategoriaDTO> categories = new ArrayList<>();
+	private Set<CategoriaDTO> categories = new HashSet<>();
 
 	public ProdutoDTO(Long id, String nome, String marca, BigDecimal preco, String descricao, String imgUrl) {
 		this.id = id;
@@ -111,20 +110,13 @@ public class ProdutoDTO {
 		this.imgUrl = imgUrl;
 	}
 
-	public List<CategoriaDTO> getCategories() {
+	public Set<CategoriaDTO> getCategories() {
 		return categories;
 	}
 
-	public void setCategories(List<CategoriaDTO> categories) {
+	public void setCategories(Set<CategoriaDTO> categories) {
 		this.categories = categories;
 	}
 
-	public List<EstoqueDTO> getEstoques() {
-		return estoques;
-	}
-
-	public void setEstoques(List<EstoqueDTO> estoques) {
-		this.estoques = estoques;
-	}
 
 }
