@@ -1,5 +1,8 @@
 package com.uni.foodstock.services;
 
+import com.uni.foodstock.dto.CategoriaDTO;
+import com.uni.foodstock.entidade.Categoria;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -51,27 +54,27 @@ public class ProdutoService {
 	public ProdutoDTO update(Long id, ProdutoDTO dto) {
 		try {
 			Produto entidade = repositori.getReferenceById(id);
-			copyDtoToEntity(dto, entidade);
+			BeanUtils.copyProperties(entidade, dto, "id");
 			entidade = repositori.save(entidade);
 			return new ProdutoDTO(entidade);
-		} 
+		}
 		catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Recurso não encontrado");
 		}
 
 	}
-	
+
 	@Transactional(propagation = Propagation.SUPPORTS) 		/* Deletor por ID */
 	public void delete(Long id) {
 		if (!repositori.existsById(id)) {
 			throw new ResourceNotFoundException("Recurso não encontrado");
 		}
 		try {
-	        	repositori.deleteById(id);    		
+			repositori.deleteById(id);
 		}
-	    	catch (DataIntegrityViolationException e) {
-	        	throw new DatabaseException("Falha de integridade referencial");
-	   	}
+		catch (DataIntegrityViolationException e) {
+			throw new DatabaseException("Falha de integridade referencial");
+		}
 	}
 
 
@@ -80,7 +83,14 @@ public class ProdutoService {
 		entidade.setNome(dto.getNome());
 		entidade.setMarca(dto.getMarca());
 		entidade.setImgUrl(dto.getImgUrl());
-
+		entidade.setDescricao(dto.getDescricao());
+		entidade.setPreco(dto.getPreco());
+		entidade.getCategories().clear();
+		for (CategoriaDTO catDto : dto.getCategories()) {
+			Categoria cat = new Categoria();
+			cat.setId(catDto.getId());
+			entidade.getCategories().add(cat);
+		}
 	}
 
 }

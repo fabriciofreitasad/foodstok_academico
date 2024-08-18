@@ -50,7 +50,7 @@ public class ProdutoController {
 		dto = service.update(id, dto);
 		return ResponseEntity.ok(dto);
 	}
-	
+
 	@DeleteMapping(value = "/{id}") 									/* Deletar um produto ID */
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		service.delete(id);

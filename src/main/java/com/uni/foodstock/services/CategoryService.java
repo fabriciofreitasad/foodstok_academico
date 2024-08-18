@@ -1,5 +1,6 @@
 package com.uni.foodstock.services;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -18,10 +19,10 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class CategoryService {
-	
+
 	@Autowired
 	private CategoriaRepositori repository;
-	
+
 	@Transactional(readOnly = true) 						/* Buscar por ID */
 	public CategoriaDTO findById(Long id) {
 		Categoria produto = repository.findById(id).orElseThrow(
@@ -51,27 +52,27 @@ public class CategoryService {
 	public CategoriaDTO update(Long id, CategoriaDTO dto) {
 		try {
 			Categoria entidade = repository.getReferenceById(id);
-			copyDtoToEntity(dto, entidade);
+			BeanUtils.copyProperties(entidade,dto,"id");
 			entidade = repository.save(entidade);
 			return new CategoriaDTO(entidade);
-		} 
+		}
 		catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Recurso não encontrado");
 		}
 
 	}
-	
+
 	@Transactional(propagation = Propagation.SUPPORTS) 		/* Deletor por ID */
 	public void delete(Long id) {
 		if (!repository.existsById(id)) {
 			throw new ResourceNotFoundException("Recurso não encontrado");
 		}
 		try {
-			repository.deleteById(id);    		
+			repository.deleteById(id);
 		}
-	    	catch (DataIntegrityViolationException e) {
-	        	throw new DatabaseException("Falha de integridade referencial");
-	   	}
+		catch (DataIntegrityViolationException e) {
+			throw new DatabaseException("Falha de integridade referencial");
+		}
 	}
 
 
