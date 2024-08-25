@@ -26,6 +26,7 @@ public class Produto {
 	private BigDecimal preco;
 	private String descricao;
 	private String imgUrl;
+	private String validade;
 
 	@ManyToMany
 	@JoinTable(name = "tb_produto_categoria", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
@@ -36,13 +37,17 @@ public class Produto {
 	public Produto() {
 	}
 
-	public Produto(Long id, String nome, String marca, BigDecimal preco, String descricao, String imgUrl) {
+	public Produto(Long id, String nome, String marca, BigDecimal preco, String descricao, String imgUrl,
+			String validade, Set<Categoria> categories, Integer estoque) {
 		this.id = id;
 		this.nome = nome;
 		this.marca = marca;
 		this.preco = preco;
 		this.descricao = descricao;
 		this.imgUrl = imgUrl;
+		this.validade = validade;
+		this.categories = categories;
+		this.estoque = estoque;
 	}
 
 	public Long getId() {
@@ -91,6 +96,14 @@ public class Produto {
 
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
+	}
+
+	public String getValidade() {
+		return validade;
+	}
+
+	public void setValidade(String validade) {
+		this.validade = validade;
 	}
 
 	public Set<Categoria> getCategories() {

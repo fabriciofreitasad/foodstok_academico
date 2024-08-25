@@ -35,18 +35,19 @@ public class ProdutoDTO {
 	@NotBlank(message = "Campo requerido")
 	private String descricao;
 	private String imgUrl;
-
+	private String validade;
 
 	@NotEmpty(message = "Deve ter pelo menos uma categoria")
 	private Set<CategoriaDTO> categories = new HashSet<>();
 
-	public ProdutoDTO(Long id, String nome, String marca, BigDecimal preco, String descricao, String imgUrl) {
+	public ProdutoDTO(Long id, String nome, String marca, BigDecimal preco, String descricao, String imgUrl, String validade) {
 		this.id = id;
 		this.nome = nome;
 		this.marca = marca;
 		this.preco = preco;
 		this.descricao = descricao;
 		this.imgUrl = imgUrl;
+		this.validade = validade;
 	}
 
 	public ProdutoDTO(Produto entidade) {
@@ -56,6 +57,7 @@ public class ProdutoDTO {
 		descricao = entidade.getDescricao();
 		preco = entidade.getPreco();
 		imgUrl = entidade.getImgUrl();
+		validade =  entidade.getValidade();
 
 		for (Categoria cat : entidade.getCategories()) {
 			categories.add(new CategoriaDTO(cat));
@@ -110,6 +112,14 @@ public class ProdutoDTO {
 		this.imgUrl = imgUrl;
 	}
 
+	public String getValidade() {
+		return validade;
+	}
+
+	public void setValidade(String validade) {
+		this.validade = validade;
+	}
+
 	public Set<CategoriaDTO> getCategories() {
 		return categories;
 	}
@@ -117,6 +127,5 @@ public class ProdutoDTO {
 	public void setCategories(Set<CategoriaDTO> categories) {
 		this.categories = categories;
 	}
-
 
 }
