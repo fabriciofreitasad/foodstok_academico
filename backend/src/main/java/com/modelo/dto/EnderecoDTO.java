@@ -3,7 +3,7 @@ package com.modelo.dto;
 import java.io.Serializable;
 
 import com.modelo.entities.Endereco;
-import com.modelo.unums.TipoEndereco;
+import com.modelo.enums.TipoEndereco;
 
 public class EnderecoDTO implements Serializable {
 

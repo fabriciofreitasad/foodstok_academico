@@ -1,6 +1,6 @@
 package com.modelo.entities;
 
-import com.modelo.unums.TipoEndereco;
+import com.modelo.enums.TipoEndereco;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

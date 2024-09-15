@@ -1,4 +1,4 @@
-package com.modelo.unums;
+package com.modelo.enums;
 
 public enum TipoEndereco {
 	
