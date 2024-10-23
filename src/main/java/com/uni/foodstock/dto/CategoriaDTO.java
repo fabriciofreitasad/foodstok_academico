@@ -12,6 +12,8 @@ public class CategoriaDTO {
 
 	private String descricao;
 
+	private String imgUrl;
+
 	public CategoriaDTO() {
 	}
 
@@ -19,6 +21,7 @@ public class CategoriaDTO {
 		id = entidade.getId();
 		nome = entidade.getNome();
 		descricao = entidade.getDescricao();
+		imgUrl = entidade.getImgUrl();
 	}
 
 	public Long getId() {
@@ -45,4 +48,11 @@ public class CategoriaDTO {
 		this.descricao = descricao;
 	}
 
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
 }

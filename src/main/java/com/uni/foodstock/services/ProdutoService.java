@@ -13,78 +13,83 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.uni.foodstock.dto.ProdutoDTO;
 import com.uni.foodstock.entidade.Produto;
-import com.uni.foodstock.repositories.ProdutoRepositori;
+import com.uni.foodstock.repositories.ProdutoRepository;
 import com.uni.foodstock.services.exceptions.DatabaseException;
 import com.uni.foodstock.services.exceptions.ResourceNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Service
 public class ProdutoService {
 
 	@Autowired
-	private ProdutoRepositori repositori;
+	private ProdutoRepository repository;
 
-	@Transactional(readOnly = true) 						/* Buscar por ID */
-	public ProdutoDTO findById(Long id) {
-		Produto produto = repositori.findById(id).orElseThrow(
+	@Transactional(readOnly = true)
+	public ProdutoDTO findById(Long id, Long tenantId) {
+		Produto produto = repository.findByIdAndTenantId(id, String.valueOf(tenantId)).orElseThrow(
 				() -> new ResourceNotFoundException("Recurso não encontrado"));
 		return new ProdutoDTO(produto);
-
 	}
 
-	@Transactional(readOnly = true) 						/* Buscar todos */
-	public Page<ProdutoDTO> findAll(Pageable pageable) {
-		Page<Produto> result = repositori.findAll(pageable);
-		return result.map(x -> new ProdutoDTO(x));
+	@Transactional(readOnly = true)
+	public Page<ProdutoDTO> findAll(String nomeProduto, String nomeCategoria, Long tenantId, Pageable pageable) {
+		Page<Produto> result;
 
+		if ((nomeProduto == null || nomeProduto.isEmpty()) && (nomeCategoria == null || nomeCategoria.isEmpty())) {
+			result = repository.findByTenantId(String.valueOf(tenantId), pageable); // Busca todos os produtos do tenant
+		} else {
+			result = repository.findByNomeOuCategoriaAndTenantId(nomeProduto, nomeCategoria, String.valueOf(tenantId), pageable); // Aplica os filtros
+		}
+
+		return result.map(ProdutoDTO::new);
 	}
 
-	@Transactional 											/* Inserir novo produto */
-	public ProdutoDTO insert(ProdutoDTO dto) {
-
+	@Transactional
+	public ProdutoDTO insert(ProdutoDTO dto, Long tenantId) {
 		Produto entidade = new Produto();
 		copyDtoToEntity(dto, entidade);
-		entidade = repositori.save(entidade);
+		entidade.setTenantId(tenantId); // Define o tenantId no produto
+		entidade = repository.save(entidade);
 		return new ProdutoDTO(entidade);
-
 	}
 
-	@Transactional 											/* Inserir novo produto */
-	public ProdutoDTO update(Long id, ProdutoDTO dto) {
+	@Transactional
+	public ProdutoDTO update(Long id, ProdutoDTO dto, Long tenantId) {
 		try {
-			Produto entidade = repositori.getReferenceById(id);
+			Produto entidade = repository.findByIdAndTenantId(id, String.valueOf(tenantId)).orElseThrow(
+					() -> new ResourceNotFoundException("Recurso não encontrado"));
 			BeanUtils.copyProperties(entidade, dto, "id");
-			entidade = repositori.save(entidade);
+			entidade = repository.save(entidade);
 			return new ProdutoDTO(entidade);
-		}
-		catch(EntityNotFoundException e) {
+		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Recurso não encontrado");
 		}
-
 	}
 
-	@Transactional(propagation = Propagation.SUPPORTS) 		/* Deletor por ID */
-	public void delete(Long id) {
-		if (!repositori.existsById(id)) {
+	@Transactional(propagation = Propagation.SUPPORTS)
+	public void delete(Long id, Long tenantId) {
+		if (!repository.existsByIdAndTenantId(id, tenantId)) {
 			throw new ResourceNotFoundException("Recurso não encontrado");
 		}
 		try {
-			repositori.deleteById(id);
-		}
-		catch (DataIntegrityViolationException e) {
+			repository.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Falha de integridade referencial");
 		}
 	}
 
-
-
 	private void copyDtoToEntity(ProdutoDTO dto, Produto entidade) {
 		entidade.setNome(dto.getNome());
 		entidade.setMarca(dto.getMarca());
-		entidade.setImgUrl(dto.getImgUrl());
+		entidade.setQuantidade(dto.getQuantidade());
 		entidade.setDescricao(dto.getDescricao());
 		entidade.setPreco(dto.getPreco());
+		entidade.setUnidade(dto.getUnidade());
+		entidade.setValidade(dto.getValidade());
 		entidade.getCategories().clear();
 		for (CategoriaDTO catDto : dto.getCategories()) {
 			Categoria cat = new Categoria();
@@ -92,5 +97,4 @@ public class ProdutoService {
 			entidade.getCategories().add(cat);
 		}
 	}
-
 }

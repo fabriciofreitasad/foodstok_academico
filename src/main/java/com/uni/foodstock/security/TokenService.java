@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.uni.foodstock.entidade.Usuario;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 @Service
+//@Profile("secure")
 public class TokenService {
 
 

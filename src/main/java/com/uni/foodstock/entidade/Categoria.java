@@ -21,6 +21,7 @@ public class Categoria {
 
 	private String nome;
 	private String descricao;
+	private String imgUrl;
 
 	@ManyToMany(mappedBy = "categories")
 	private Set<Produto> produtos = new HashSet<>();
@@ -28,10 +29,11 @@ public class Categoria {
 	public Categoria() {
 	}
 
-	public Categoria(Long id, String nome, String descricao) {
+	public Categoria(Long id, String nome, String descricao, String imgUrl) {
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
+		this.imgUrl = imgUrl;
 	}
 
 	public Long getId() {
@@ -64,6 +66,15 @@ public class Categoria {
 
 	public void setProdutos(Set<Produto> produtos) {
 		this.produtos = produtos;
+	}
+
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
 
 	@Override

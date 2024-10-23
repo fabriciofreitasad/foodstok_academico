@@ -1,17 +1,15 @@
 package com.uni.foodstock.dto;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.uni.foodstock.entidade.Categoria;
 import com.uni.foodstock.entidade.Produto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
@@ -23,30 +21,33 @@ public class ProdutoDTO {
 	@NotBlank(message = "Campo requerido")
 	private String nome;
 
-	@Size(min = 3, max = 80, message = "Nome presisa ter de 3 a 80 caracteres")
-	@NotBlank(message = "Campo requerido")
+	@Size(min = 2, max = 80, message = "Nome presisa ter de 2 a 80 caracteres")
 	private String marca;
 
-	@NotNull(message = "Campo requerido")
 	@Positive(message = "O preço deve ser positivo")
 	private BigDecimal preco;
 
 	@Size(min = 10, message = "Descrição precisa ter no minimom 10 caracteres")
-	@NotBlank(message = "Campo requerido")
 	private String descricao;
-	private String imgUrl;
+	private BigDecimal quantidade;
+	private String unidade;
+	private Date validade;
 
 
-	@NotEmpty(message = "Deve ter pelo menos uma categoria")
+	@NotEmpty(message = "Deve ter uma categoria")
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private Set<CategoriaDTO> categories = new HashSet<>();
 
-	public ProdutoDTO(Long id, String nome, String marca, BigDecimal preco, String descricao, String imgUrl) {
+	public ProdutoDTO(Long id,String unidade ,Date validade,String nome, BigDecimal preco, String marca, String descricao, BigDecimal quantidade, Set<CategoriaDTO> categories) {
 		this.id = id;
 		this.nome = nome;
-		this.marca = marca;
 		this.preco = preco;
+		this.marca = marca;
 		this.descricao = descricao;
-		this.imgUrl = imgUrl;
+		this.quantidade = quantidade;
+		this.categories = categories;
+		this.unidade = unidade;
+		this.validade = validade;
 	}
 
 	public ProdutoDTO(Produto entidade) {
@@ -55,11 +56,17 @@ public class ProdutoDTO {
 		marca = entidade.getMarca();
 		descricao = entidade.getDescricao();
 		preco = entidade.getPreco();
-		imgUrl = entidade.getImgUrl();
+		quantidade = entidade.getQuantidade();
+		unidade = entidade.getUnidade();
+		validade = entidade.getValidade();
 
 		for (Categoria cat : entidade.getCategories()) {
 			categories.add(new CategoriaDTO(cat));
 		}
+	}
+
+	public ProdutoDTO() {
+
 	}
 
 	public Long getId() {
@@ -102,12 +109,12 @@ public class ProdutoDTO {
 		this.descricao = descricao;
 	}
 
-	public String getImgUrl() {
-		return imgUrl;
+	public BigDecimal getQuantidade() {
+		return quantidade;
 	}
 
-	public void setImgUrl(String imgUrl) {
-		this.imgUrl = imgUrl;
+	public void setQuantidade(BigDecimal quantidade) {
+		this.quantidade = quantidade;
 	}
 
 	public Set<CategoriaDTO> getCategories() {
@@ -118,5 +125,19 @@ public class ProdutoDTO {
 		this.categories = categories;
 	}
 
+	public String getUnidade() {
+		return unidade;
+	}
 
+	public void setUnidade(String unidade) {
+		this.unidade = unidade;
+	}
+
+	public Date getValidade() {
+		return validade;
+	}
+
+	public void setValidade(Date validade) {
+		this.validade = validade;
+	}
 }

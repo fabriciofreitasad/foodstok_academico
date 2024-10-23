@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.uni.foodstock.dto.CategoriaDTO;
 import com.uni.foodstock.entidade.Categoria;
-import com.uni.foodstock.repositories.CategoriaRepositori;
+import com.uni.foodstock.repositories.CategoriaRepository;
 import com.uni.foodstock.services.exceptions.DatabaseException;
 import com.uni.foodstock.services.exceptions.ResourceNotFoundException;
 
@@ -21,7 +21,7 @@ import jakarta.persistence.EntityNotFoundException;
 public class CategoryService {
 
 	@Autowired
-	private CategoriaRepositori repository;
+	private CategoriaRepository repository;
 
 	@Transactional(readOnly = true) 						/* Buscar por ID */
 	public CategoriaDTO findById(Long id) {
@@ -81,6 +81,7 @@ public class CategoryService {
 		entidade.setId(dto.getId());
 		entidade.setNome(dto.getNome());
 		entidade.setDescricao(dto.getDescricao());
+		entidade.setImgUrl(dto.getImgUrl());
 
 	}
 

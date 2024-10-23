@@ -1,20 +1,14 @@
 package com.uni.foodstock.entidade;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Objects;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@Table(name = "tb_usuario")
-public class Usuario {
+@Table(name = "usuario")
+public class Usuario implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,12 +21,10 @@ public class Usuario {
 
 	private String senha;
 
-
-
 	public Usuario() {
 	}
 
-	public Usuario(Long id, String nome, String email, String senha, List<ListaCompra> lista) {
+	public Usuario(Long id, String nome, String email, String senha) {
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
@@ -71,6 +63,43 @@ public class Usuario {
 		this.senha = senha;
 	}
 
+	// Métodos da interface UserDetails
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// Se você tiver papéis ou permissões, deve retornar aqui
+		return null;  // Sem roles ou authorities por enquanto
+	}
+
+	@Override
+	public String getPassword() {
+		return this.senha;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;  // Assumindo que a conta nunca expira
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;  // Assumindo que a conta nunca é bloqueada
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;  // Assumindo que as credenciais nunca expiram
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;  // Assumindo que a conta está sempre habilitada
+	}
 
 	@Override
 	public int hashCode() {
@@ -88,5 +117,4 @@ public class Usuario {
 		Usuario other = (Usuario) obj;
 		return Objects.equals(id, other.id);
 	}
-
 }
