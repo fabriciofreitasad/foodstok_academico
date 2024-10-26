@@ -1,8 +1,9 @@
 
 package com.uni.foodstock.security;
 
-import com.uni.foodstock.entidade.Usuario;
-import com.uni.foodstock.repositories.UsuarioRepositori;
+
+import com.uni.foodstock.entities.Usuario;
+import com.uni.foodstock.repositories.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,12 +20,13 @@ import java.util.Collections;
 
 
 @Component
+//@Profile("secure")
 public class SecurityFilter extends OncePerRequestFilter {
 
     @Autowired
     public TokenService tokenService;
     @Autowired
-    public UsuarioRepositori usuarioRepository;
+    public UsuarioRepository usuarioRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

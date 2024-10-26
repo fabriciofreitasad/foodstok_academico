@@ -1,15 +1,10 @@
-package com.uni.foodstock.entidade;
+package com.uni.foodstock.entities;
 
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tb_categoria")
@@ -18,21 +13,27 @@ public class Categoria {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
 	private String nome;
 	private String descricao;
+	private String imgUrl;
+	private String tenantId;
 
-	@ManyToMany(mappedBy = "categories")
+	@ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
 	private Set<Produto> produtos = new HashSet<>();
 
 	public Categoria() {
 	}
 
-	public Categoria(Long id, String nome, String descricao) {
+	public Categoria(Long id, String tenantId, String nome, String descricao, String imgUrl, Set<Produto> produtos) {
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
+		this.imgUrl = imgUrl;
+		this.tenantId = tenantId;
+		this.produtos = produtos;
 	}
+
+	// Getters e Setters
 
 	public Long getId() {
 		return id;
@@ -58,6 +59,22 @@ public class Categoria {
 		this.descricao = descricao;
 	}
 
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+
+	public String getTenantId() {
+		return tenantId;
+	}
+
+	public void setTenantId(String tenantId) {
+		this.tenantId = tenantId;
+	}
+
 	public Set<Produto> getProdutos() {
 		return produtos;
 	}
@@ -65,6 +82,8 @@ public class Categoria {
 	public void setProdutos(Set<Produto> produtos) {
 		this.produtos = produtos;
 	}
+
+	// Métodos de comparação (hashCode e equals)
 
 	@Override
 	public int hashCode() {
@@ -82,5 +101,4 @@ public class Categoria {
 		Categoria other = (Categoria) obj;
 		return Objects.equals(id, other.id);
 	}
-
 }

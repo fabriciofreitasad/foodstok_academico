@@ -1,18 +1,13 @@
-package com.uni.foodstock.entidade;
+package com.uni.foodstock.entities;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tb_produto")
@@ -24,25 +19,42 @@ public class Produto {
 	private String nome;
 	private String marca;
 	private BigDecimal preco;
+	@Column()
 	private String descricao;
-	private String imgUrl;
+	private BigDecimal quantidade;
+	private String unidade;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	private Date validade;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "tb_produto_categoria", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
 	private Set<Categoria> categories = new HashSet<>();
+	private String tenantId;
 
-	private Integer estoque;
+
 
 	public Produto() {
 	}
 
-	public Produto(Long id, String nome, String marca, BigDecimal preco, String descricao, String imgUrl) {
+	public Produto(Long id,String tenantId,String unidade,Date validade, String nome, String marca, BigDecimal preco, String descricao, BigDecimal quantidade, Set<Categoria> categories) {
 		this.id = id;
 		this.nome = nome;
 		this.marca = marca;
 		this.preco = preco;
 		this.descricao = descricao;
-		this.imgUrl = imgUrl;
+		this.quantidade = quantidade;
+		this.categories = categories;
+		this.unidade = unidade;
+		this.validade=validade;
+		this.tenantId = tenantId;
+	}
+
+	public String getTenantId() {
+		return tenantId;
+	}
+
+	public void setTenantId(String tenantId) {
+		this.tenantId = tenantId;
 	}
 
 	public Long getId() {
@@ -85,12 +97,12 @@ public class Produto {
 		this.descricao = descricao;
 	}
 
-	public String getImgUrl() {
-		return imgUrl;
+	public BigDecimal getQuantidade() {
+		return quantidade;
 	}
 
-	public void setImgUrl(String imgUrl) {
-		this.imgUrl = imgUrl;
+	public void setQuantidade(BigDecimal quantidade) {
+		this.quantidade = quantidade;
 	}
 
 	public Set<Categoria> getCategories() {
@@ -101,12 +113,20 @@ public class Produto {
 		this.categories = categories;
 	}
 
-	public Integer getEstoque() {
-		return estoque;
+	public String getUnidade() {
+		return unidade;
 	}
 
-	public void setEstoque(Integer estoque) {
-		this.estoque = estoque;
+	public void setUnidade(String unidade) {
+		this.unidade = unidade;
+	}
+
+	public Date getValidade() {
+		return validade;
+	}
+
+	public void setValidade(Date validade) {
+		this.validade = validade;
 	}
 
 	@Override
