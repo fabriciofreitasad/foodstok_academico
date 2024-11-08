@@ -1,3 +1,4 @@
+/*
 package com.uni.foodstock.security;
 
 import org.springframework.context.annotation.Bean;
@@ -24,3 +25,6 @@ public class SecurityConfigInative {
     }
 
 }
+
+
+ */

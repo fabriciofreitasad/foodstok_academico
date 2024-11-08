@@ -1,9 +1,9 @@
-
 package com.uni.foodstock.security;
-
 
 import com.uni.foodstock.entities.Usuario;
 import com.uni.foodstock.repositories.UsuarioRepository;
+import com.uni.foodstock.security.TokenService;
+import com.uni.foodstock.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,34 +17,57 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Collections;
-
+import java.util.Set;
 
 @Component
-//@Profile("secure")
 public class SecurityFilter extends OncePerRequestFilter {
 
     @Autowired
-    public TokenService tokenService;
+    private TokenService tokenService;
+
     @Autowired
-    public UsuarioRepository usuarioRepository;
+    private UsuarioRepository usuarioRepository;
+
+    private static final Set<String> EXEMPT_PATHS = Set.of(
+            "/auth//change-password",
+            "/auth/recover",
+            "/auth/login",
+            "/auth/register"
+    );
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        var token = this.recoverToken(request);
-        var login = tokenService.validateToken(token);
+        String path = request.getRequestURI();
 
-        if(login !=null){
-            Usuario user = usuarioRepository.findByEmail(login).orElseThrow(()-> new RuntimeException("User Not Found"));
-            var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-            var authentication = new UsernamePasswordAuthenticationToken(user,null,authorities);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        if (EXEMPT_PATHS.contains(path)) {
+            filterChain.doFilter(request, response);
+            return;
         }
+
+        String token = recoverToken(request);
+        if (token != null) {
+
+            String login = tokenService.validateToken(token);
+            if (login != null) {
+                Usuario user = usuarioRepository.findByEmail(login)
+                        .orElseThrow(() -> new ResourceNotFoundException("User with email " + login + " not found"));
+
+
+                var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+                var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+        }
+
         filterChain.doFilter(request, response);
     }
 
-    private String recoverToken(HttpServletRequest request){
+
+    private String recoverToken(HttpServletRequest request) {
         var authHeader = request.getHeader("Authorization");
-        if(authHeader == null) return null;
-        return authHeader.replace("Bearer ", "");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            return authHeader.replace("Bearer ", "");
+        }
+        return null;
     }
 }
