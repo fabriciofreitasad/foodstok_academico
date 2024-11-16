@@ -11,10 +11,10 @@ import java.util.Optional;
 
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 
-    @Query("SELECT c FROM Categoria c WHERE c.tenantId = :tenantId")
+    @Query("SELECT c FROM Categoria c WHERE c.tenantId = :tenantId OR c.tenantId IS NULL")
     Page<Categoria> findByTenantId(@Param("tenantId") String tenantId, Pageable pageable);
 
-    @Query("SELECT c FROM Categoria c WHERE c.id = :id AND c.tenantId = :tenantId")
+    @Query("SELECT c FROM Categoria c WHERE c.id = :id AND (c.tenantId = :tenantId OR c.tenantId IS NULL)")
     Optional<Categoria> findByIdAndTenantId(@Param("id") Long id, @Param("tenantId") String tenantId);
 
     @Query("SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END FROM Categoria c WHERE c.id = :id AND c.tenantId = :tenantId")

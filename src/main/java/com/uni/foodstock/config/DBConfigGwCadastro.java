@@ -29,7 +29,7 @@ public class DBConfigGwCadastro {
         config.setDriverClassName("com.mysql.cj.jdbc.Driver");
         config.setJdbcUrl("jdbc:mysql://localhost:3306/foodstock?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC");
         config.setUsername("root");
-        config.setPassword("admin");
+        config.setPassword("root");//TODO:alterar senha
         config.setMaximumPoolSize(10);
 
         return new HikariDataSource(config);
