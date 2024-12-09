@@ -27,13 +27,11 @@ public class ProdutoDTO {
 	@Positive(message = "O preço deve ser positivo")
 	private BigDecimal preco;
 
-	@Size(min = 10, message = "Descrição precisa ter no minimom 10 caracteres")
 	private String descricao;
 	private BigDecimal quantidade;
 	private String unidade;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date validade;
-
 
 	@NotEmpty(message = "Deve ter uma categoria")
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)

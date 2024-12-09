@@ -70,12 +70,17 @@ public class ProdutoService {
 		return new ProdutoDTO(entidade);
 	}
 
-	@Transactional /* Atualizar produto */
+	@Transactional
 	public ProdutoDTO update(Long id, ProdutoDTO dto) {
 		try {
-			Produto entidade = repository.getReferenceById(id);
-			BeanUtils.copyProperties(entidade, dto, "id");
+
+			Produto entidade = repository.findById(id)
+					.orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado"));
+
+			BeanUtils.copyProperties(dto, entidade, "id");
+
 			entidade = repository.save(entidade);
+
 			return new ProdutoDTO(entidade);
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Recurso não encontrado");

@@ -1,4 +1,6 @@
 package com.uni.foodstock.security.dto;
 
-public record ResponseDTO(String name, String token) {
+import com.uni.foodstock.entities.Usuario;
+
+public record ResponseDTO(Usuario user, String token) {
 }

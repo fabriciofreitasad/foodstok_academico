@@ -1,12 +1,17 @@
 package com.uni.foodstock.controllers;
 
+import java.io.IOException;
 import java.net.URI;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.uni.foodstock.dto.CategoriaDTO;
@@ -32,17 +37,28 @@ public class CategoriaController {
 		return ResponseEntity.ok(dto);
 	}
 
-	@PostMapping 														/* Inserir novo cateria */
-	public ResponseEntity<CategoriaDTO> insert(@RequestBody CategoriaDTO dto) {
-		dto = service.insert(dto);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
-		return ResponseEntity.created(uri).body(dto);
+	@PostMapping
+	public ResponseEntity<CategoriaDTO> insert(@RequestParam("file") MultipartFile file, @RequestParam("categoria") String categoriaJson) throws IOException {
+
+			byte[] imagemBytes = file.getBytes();
+			CategoriaDTO categoriaDTO = new ObjectMapper().readValue(categoriaJson, CategoriaDTO.class);
+
+			categoriaDTO.setImagem(imagemBytes);
+
+			CategoriaDTO savedCategoria = service.insert(categoriaDTO);
+
+			return ResponseEntity.ok(savedCategoria);
+
 	}
 
 	@PutMapping(value = "/{id}") 										/* Atualizar cateria ID */
-	public ResponseEntity<CategoriaDTO> update(@PathVariable Long id, @RequestBody CategoriaDTO dto) {
-		dto = service.update(id, dto);
-		return ResponseEntity.ok(dto);
+	public ResponseEntity<CategoriaDTO> update(@PathVariable Long id, @RequestParam("file") MultipartFile file, @RequestParam("categoria") String categoriaJson) throws IOException {
+		byte[] imagemBytes = file.getBytes();
+		CategoriaDTO categoriaDTO = new ObjectMapper().readValue(categoriaJson, CategoriaDTO.class);
+
+		categoriaDTO.setImagem(imagemBytes);
+		CategoriaDTO savedCategoria = service.update(id, categoriaDTO);
+		return ResponseEntity.ok(savedCategoria);
 	}
 
 	@DeleteMapping(value = "/{id}") 									/* Deletar um categoria ID */

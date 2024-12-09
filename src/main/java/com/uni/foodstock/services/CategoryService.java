@@ -79,6 +79,6 @@ public class CategoryService {
 	private void copyDtoToEntity(CategoriaDTO dto, Categoria entidade) {
 		entidade.setNome(dto.getNome());
 		entidade.setDescricao(dto.getDescricao());
-		entidade.setImgUrl(dto.getImgUrl());
+		entidade.setImagem(dto.getImagem());
 	}
 }

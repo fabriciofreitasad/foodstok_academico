@@ -37,7 +37,7 @@ public class UsuarioController {
 
 		if(passwordEncoder.matches(login.password(), user.getSenha())){
 			String token = this.tokenService.generateToken(user);
-			return ResponseEntity.ok(new ResponseDTO(user.getNome(),token));
+			return ResponseEntity.ok(new ResponseDTO(user,token));
 		}
 		return ResponseEntity.badRequest().body("Usuário ou senha Incorretas!");
 	}
@@ -52,7 +52,7 @@ public class UsuarioController {
 			this.usuarioRepository.save(newUser);
 
 			String token = this.tokenService.generateToken(newUser);
-			return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO(newUser.getNome(),token));
+			return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO(newUser,token));
 		}
 
 		return ResponseEntity.badRequest().build();

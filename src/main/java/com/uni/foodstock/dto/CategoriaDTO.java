@@ -1,6 +1,7 @@
 package com.uni.foodstock.dto;
 
 import com.uni.foodstock.entities.Categoria;
+import jakarta.persistence.Lob;
 
 public class CategoriaDTO {
 
@@ -12,7 +13,8 @@ public class CategoriaDTO {
 
 	private String descricao;
 
-	private String imgUrl;
+	@Lob
+	private byte[] imagem;
 
 	public CategoriaDTO() {
 	}
@@ -21,7 +23,7 @@ public class CategoriaDTO {
 		id = entidade.getId();
 		nome = entidade.getNome();
 		descricao = entidade.getDescricao();
-		imgUrl = entidade.getImgUrl();
+		imagem = entidade.getImagem();
 	}
 
 	public Long getId() {
@@ -48,11 +50,11 @@ public class CategoriaDTO {
 		this.descricao = descricao;
 	}
 
-	public String getImgUrl() {
-		return imgUrl;
+	public byte[] getImagem() {
+		return imagem;
 	}
 
-	public void setImgUrl(String imgUrl) {
-		this.imgUrl = imgUrl;
+	public void setImagem(byte[] imagem) {
+		this.imagem = imagem;
 	}
 }

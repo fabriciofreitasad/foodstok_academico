@@ -15,7 +15,9 @@ public class Categoria {
 	private Long id;
 	private String nome;
 	private String descricao;
-	private String imgUrl;
+	@Lob
+	@Column(name = "cert_file", length = 65535)
+	private byte[] imagem;
 	private String tenantId;
 
 	@ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
@@ -24,11 +26,11 @@ public class Categoria {
 	public Categoria() {
 	}
 
-	public Categoria(Long id, String tenantId, String nome, String descricao, String imgUrl, Set<Produto> produtos) {
+	public Categoria(Long id, String tenantId, String nome, String descricao, byte[] imagem, Set<Produto> produtos) {
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
-		this.imgUrl = imgUrl;
+		this.imagem = imagem;
 		this.tenantId = tenantId;
 		this.produtos = produtos;
 	}
@@ -59,12 +61,12 @@ public class Categoria {
 		this.descricao = descricao;
 	}
 
-	public String getImgUrl() {
-		return imgUrl;
+	public byte[] getImagem() {
+		return imagem;
 	}
 
-	public void setImgUrl(String imgUrl) {
-		this.imgUrl = imgUrl;
+	public void setImagem(byte[] imagem) {
+		this.imagem = imagem;
 	}
 
 	public String getTenantId() {
