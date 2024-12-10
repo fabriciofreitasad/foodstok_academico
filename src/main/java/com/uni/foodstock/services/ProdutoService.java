@@ -79,6 +79,7 @@ public class ProdutoService {
 
 			BeanUtils.copyProperties(dto, entidade, "id");
 
+
 			entidade = repository.save(entidade);
 
 			return new ProdutoDTO(entidade);

@@ -51,15 +51,32 @@ public class CategoriaController {
 
 	}
 
-	@PutMapping(value = "/{id}") 										/* Atualizar cateria ID */
-	public ResponseEntity<CategoriaDTO> update(@PathVariable Long id, @RequestParam("file") MultipartFile file, @RequestParam("categoria") String categoriaJson) throws IOException {
-		byte[] imagemBytes = file.getBytes();
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<CategoriaDTO> update(@PathVariable Long id,
+											   @RequestParam(value = "file" ,required = false) MultipartFile file,
+											   @RequestParam("categoria") String categoriaJson) throws IOException {
+
+		// Converte o JSON recebido no parâmetro "categoria" para um DTO
 		CategoriaDTO categoriaDTO = new ObjectMapper().readValue(categoriaJson, CategoriaDTO.class);
 
-		categoriaDTO.setImagem(imagemBytes);
+		// Caso um arquivo de imagem seja enviado, converte em byte[] e define no DTO
+		if (file != null && !file.isEmpty()) {
+			byte[] imagemBytes = file.getBytes();
+			categoriaDTO.setImagem(imagemBytes);
+		} else {
+			// Caso não haja imagem enviada, vamos buscar a imagem existente
+			CategoriaDTO categoriaExistente = service.findById(id); // Aqui você pode obter a categoria original pelo ID
+			if (categoriaExistente != null) {
+				categoriaDTO.setImagem(categoriaExistente.getImagem()); // Mantém a imagem existente
+			}
+		}
+
+		// Atualiza a categoria com o DTO ajustado
 		CategoriaDTO savedCategoria = service.update(id, categoriaDTO);
+
 		return ResponseEntity.ok(savedCategoria);
 	}
+
 
 	@DeleteMapping(value = "/{id}") 									/* Deletar um categoria ID */
 	public ResponseEntity<Void> delete(@PathVariable Long id) {

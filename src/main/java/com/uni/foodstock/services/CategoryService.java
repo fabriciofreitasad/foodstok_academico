@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.persistence.EntityNotFoundException;
 
+import java.util.Arrays;
+
 @Service
 public class CategoryService {
 
@@ -54,14 +56,19 @@ public class CategoryService {
 	public CategoriaDTO update(Long id, CategoriaDTO dto) {
 		try {
 			String tenantId = SecurityContextHolder.getContext().getAuthentication().getName(); // Obter o tenantId
-			Categoria entidade = repository.findByIdAndTenantId(id, tenantId).orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado"));
+			Categoria entidade = repository.findByIdAndTenantId(id, tenantId)
+					.orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado"));
+
+			// Copiar propriedades do DTO para a entidade
 			BeanUtils.copyProperties(dto, entidade, "id", "tenantId");
 			entidade = repository.save(entidade);
+
 			return new CategoriaDTO(entidade);
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Recurso não encontrado");
 		}
 	}
+
 
 	@Transactional(propagation = Propagation.SUPPORTS) /* Deletar por ID */
 	public void delete(Long id) {

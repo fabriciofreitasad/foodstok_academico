@@ -19,7 +19,6 @@ public class Produto {
 	private String nome;
 	private String marca;
 	private BigDecimal preco;
-	@Column()
 	private String descricao;
 	private BigDecimal quantidade;
 	private String unidade;
